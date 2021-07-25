@@ -1,2 +1,2 @@
 # Walkthrough
-Vulnhub walkthrough and note.
+Walkthrough and note.
