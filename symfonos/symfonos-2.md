@@ -161,7 +161,10 @@ Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2021-08-03 23:05:
 [ERROR] 0 target did not complete
 Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2021-08-03 23:09:53
 ```
-
+### ssh
+```
+$ ssh aeolus@192.168.109.132
+```
 ## Privilege Escalation
 ### /etc/apache2/ports.conf 
 ```
