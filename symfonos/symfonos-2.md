@@ -245,6 +245,6 @@ uid=0(root) gid=0(root) groups=0(root)
 ```
 
 ## Reference
-* [vulnhub - ](https://www.vulnhub.com/)
-* [Hacking Articles - ](https://www.hackingarticles.in)
-* [blog.mzfr.me - ](https://blog.mzfr.me/vulnhub-writeups)
+* [vulnhub - symfonos-2](https://www.vulnhub.com/entry/symfonos-2,331/)
+* [Hacking Articles - Vulnhub - Symfonos 2 writeup](https://blog.mzfr.me/vulnhub-writeups/2019-07-19-symfonos2)
+* [blog.mzfr.me - Symfonos:2 Vulnhub Walkthrough](https://www.hackingarticles.in/symfonos2-vulnhub-walkthrough/)
