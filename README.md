@@ -1,2 +1,2 @@
 # Walkthrough
-Vulnhub walkthrough and note.
+Information Security walkthrough and note.
