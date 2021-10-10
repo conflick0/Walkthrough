@@ -1,2 +1,2 @@
 # Walkthrough
-Information security walkthrough.
+Information security walkthrough and note.
