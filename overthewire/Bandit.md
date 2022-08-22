@@ -1,34 +1,35 @@
 # Bandit
+###### tags: `security walkthrough`
 ## Level 0
 * use `bandit0` as password to login.
 ```
 $ ssh bandit0@bandit.labs.overthewire.org -p 2220
 ```
-## Level 0 - 1
+## Level 0 - 1 (cat)
 * The password for the next level is stored in a file called `readme` located in the home directory.
 ```
 $ cat readme
 boJ9jbbUNNfktd78OOpsqOltutMc3MY1
 ```
-## Level 1 - 2
+## Level 1 - 2 (cat escape string)
 * The password for the next level is stored in a file called `-` located in the home directory.
 ```
 $ cat ./-
 CV1DtqXWVFXTvM2F0k09SHz0YwRINYA9
 ```
-## Level 2 - 3
+## Level 2 - 3 (cat escape string)
 * The password for the next level is stored in a file called `spaces in this filename` located in the home directory.
 ```
 $ cat spaces\ in\ this\ filename
 UmHadQclWmgdLOKQ3YNgjWxGoRMb5luK
 ```
-## Level 3 - 4
+## Level 3 - 4 (ls -a)
 * The password for the next level is stored in a `hidden` file in the `inhere` directory.
 ```
 $ cat .hidden
 pIwrPrtPN36QITSp3EQaw936yaFoFgAB
 ```
-## Level 4 - 5
+## Level 4 - 5 (file)
 * The password for the next level is stored in the only `human-readable` file in the inhere directory.
 * use `file` command to check file type
 ```
@@ -48,7 +49,7 @@ $ file ./*
 $ cat ./-file07
 koReBOKuIDDepwhWk7jZC0RTdopnAYKh
 ```
-## Level 5 - 6
+## Level 5 - 6 (find)
 * The password for the next level is stored in a file somewhere under the inhere directory and has all of the following properties:
     * human-readable
     * 1033 bytes in size
@@ -66,7 +67,7 @@ $ find . -type f -size 1033c -name "[[:print:]]*" ! -executable
 $ cat ./maybehere07/.file2
 DXjZPULLxYr17uwoI01bNLQbtFemEgo7
 ```
-## Level 6 - 7
+## Level 6 - 7 (find)
 * The password for the next level is stored somewhere on the server and has all of the following properties:
     * owned by user bandit7
     * owned by group bandit6
@@ -83,7 +84,7 @@ $ find / -type f -size 33c -user bandit7 -group bandit6 2>/dev/null
 $ cat /var/lib/dpkg/info/bandit7.password
 HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
 ```
-## Level 7 - 8
+## Level 7 - 8 (grep)
 * The password for the next level is stored in the file `data.txt` next to the word `millionth`.
 * use `grep` command to find keyword.
     * usage: `grep <keyword> <file>`
@@ -91,14 +92,14 @@ HKBPTKQnIay4Fw76bEy8PVxKEDQRKTzs
 bandit7@bandit:~$ grep millionth data.txt
 millionth       cvX2JJa4CFALtqS87jk27qwqGhBM9plV
 ```
-## Level 8 - 9
+## Level 8 - 9 (uniq, sort)
 * The password for the next level is stored in the file `data.txt` and is the only line of text that occurs only once.
 * use `uniq -u` find occurs only once, but we need to use the `sort` command to sort the file first.
 ```
 $ sort data.txt | uniq -u
 UsvVyFSfZZWbi6wgC7dAFyFuR6jQQUhR
 ```
-## Level 9 - 10
+## Level 9 - 10 (grep)
 * The password for the next level is stored in the file `data.txt` in one of the few human-readable strings, preceded by several ‘=’ characters.
 * use `strings` and `grep` command to find the password.
 ```
@@ -115,21 +116,21 @@ c^ LAh=3G
 &========== truKLdjsbJ5g7yyJ2X2R0o3a5HQJFuLk
 S=A.H&^
 ```
-## Level 10 - 11
+## Level 10 - 11 (base64)
 * The password for the next level is stored in the file **data.txt**, which contains base64 encoded data.
 * use `base64` command to decode data.
 ```
 bandit10@bandit:~$ base64 -d data.txt
 The password is IFukwKGsFW8MOq3IRFqrxE1hxTNEbUPR
 ```
-## Level 11 - 12
+## Level 11 - 12 (tr)
 * The password for the next level is stored in the file **data.txt**, where all lowercase (a-z) and uppercase (A-Z) letters have been rotated by 13 positions.
 ```
 bandit11@bandit:~$ cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 The password is 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
 ```
 
-## Level 12 - 13
+## Level 12 - 13 (xxr, gzip, bzipp, tar)
 * The password for the next level is stored in the file **data.txt**, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work using mkdir. For example: mkdir /tmp/myname123. Then copy the datafile using cp, and rename it using mv (read the manpages!).
 * use `xxd -r` recover hexdump file to original binary file.
 * use `gzip -d`, `bzip2 -d` and `tar -xvf` to unzip file
@@ -191,21 +192,21 @@ data8: ASCII text
 bandit12@bandit:/tmp/abcd123$ cat data8
 The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 ```
-## Level 13 - 14
+## Level 13 - 14 (ssh -i)
 * The password for the next level is stored in **/etc/bandit_pass/bandit14 and can only be read by user bandit14**. For this level, you don’t get the next password, but you get a private SSH key that can be used to log into the next level. **Note: localhost** is a hostname that refers to the machine you are working on.
 ```
 bandit13@bandit:~$ ls
 sshkey.private
 bandit13@bandit:~$ ssh bandit14@localhost -i sshkey.private
 ```
-## Level 14 - 15
+## Level 14 - 15 (submit passwd to nc)
 * The password for the next level can be retrieved by submitting the password of the current level to **port 30000 on localhost**.
 ```
 bandit14@bandit:~$ cat /etc/bandit_pass/bandit14 | nc localhost 30000
 Correct!
 BfMYroe26WYalil77FoDi9qh59eK5xNr
 ```
-## Level 15 - 16
+## Level 15 - 16 (openssl)
 * The password for the next level can be retrieved by submitting the password of the current level to **port 30001 on localhost** using SSL encryption.
 * Helpful note: Getting “HEARTBEATING” and “Read R BLOCK”? Use -ign_eof and read the “CONNECTED COMMANDS” section in the manpage. Next to ‘R’ and ‘Q’, the ‘B’ command also works in this version of that command…
 * use `openssl s_client -connect <ip>:<port>` to connect the host.
@@ -227,7 +228,7 @@ cluFn7wTiGryunymYOu4RcffSxQluehd
 
 closed
 ```
-## Level 16 - 17
+## Level 16 - 17 (openssl, ssh)
 * The credentials for the next level can be retrieved by submitting the password of the current level to **a port on localhost in the range 31000 to 32000**. First find out which of these ports have a server listening on them. Then find out which of those speak SSL and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.
 ```
 bandit16@bandit:~$ nmap localhost -p 31000-32000 -T5 -Pn
@@ -287,7 +288,7 @@ C:\Users\root>ssh -i ./Desktop/key bandit17@bandit.labs.overthewire.org -p 2220
 bandit17@bandit:~$ cat /etc/bandit_pass/bandit17
 xLYVMN9WE5zQ5vHacb0sZEVqbrp7nBTn
 ```
-## Level 17 - 18
+## Level 17 - 18 (diff)
 * There are 2 files in the homedirectory: **passwords.old and passwords.new**. The password for the next level is in passwords.new and is the only line that has been changed between **passwords.old and passwords.new**.
 * NOTE: if you have solved this level and see ‘Byebye!’ when trying to log into bandit18, this is related to the next level, bandit19.
 ```
@@ -297,7 +298,7 @@ bandit17@bandit:~$ diff passwords.new passwords.old
 ---
 > w0Yfolrc5bwjS4qw5mq1nnQi6mF03bii
 ```
-## Level 18 - 19
+## Level 18 - 19 (ssh -t)
 * The password for the next level is stored in a file **readme** in the homedirectory. Unfortunately, someone has modified **.bashrc** to log you out when you log in with SSH.
 * use `-t` flag to specify the shell.
 ```
@@ -307,7 +308,7 @@ C:\Users\root>ssh bandit18@bandit.labs.overthewire.org -p 2220 -t /bin/sh
 $ cat readme
 IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
 ```
-## Level 19 - 20
+## Level 19 - 20 (suid)
 * To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used the setuid binary.
 ```
 bandit19@bandit:~$ ls -l
@@ -316,7 +317,7 @@ total 8
 bandit19@bandit:~$ ./bandit20-do cat /etc/bandit_pass/bandit20
 GbKksEFF4yrVs6il55v6gwY5aVje5f0j
 ```
-## Level 20 -21
+## Level 20 -21 (&)
 * There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).
 * `&` : run in the background.
 ```
@@ -330,7 +331,7 @@ Password matches, sending next password
 gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
 [1]+  Done                    echo "GbKksEFF4yrVs6il55v6gwY5aVje5f0j" | netcat -lp 1234
 ```
-## Level 21 -22
+## Level 21 -22 (/etc/cron.d)
 * A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
 ```
 bandit21@bandit:~$ cd /etc/cron.d
@@ -351,7 +352,7 @@ cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 bandit21@bandit:/etc/cron.d$ cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
 Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
 ```
-## Level 22 - 23
+## Level 22 - 23 (/etc/cron.d)
 * A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
 ```
 bandit22@bandit:~$ cd /etc/cron.d/
@@ -383,7 +384,7 @@ bandit22@bandit:/etc/cron.d$ echo "I am user bandit23" | md5sum | cut -d ' ' -f 
 bandit22@bandit:/etc/cron.d$ cat /tmp/8ca319486bfbbc3663ea0fbe81326349
 jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
 ```
-## Level 23 - 24
+## Level 23 - 24 (/etc/cron.d)
 * A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
 ```
 bandit23@bandit:~$ cd /etc/cron.d/
@@ -443,6 +444,55 @@ total 8
 -rwxrwxrwx 1 bandit23 bandit23 63 Nov  1 16:28 script.sh
 bandit23@bandit:/tmp/meow$ cat password
 UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+```
+## Level 24 - 25 (shell script brute-forcing)
+```
+bandit24@bandit:/tmp/meow$ nano script.sh
+```
+```
+#!/bin/bash
+for i in {0000..9999}
+do
+    echo UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ $i >> passwordlist.txt
+done
+```
+```
+bandit24@bandit:/tmp/meow$ cat passwordlist.txt | nc localhost 30002 > result.txt
+```
+```
+bandit24@bandit:/tmp/meow$ sort -u result.txt
+
+Correct!
+Exiting.
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+The password of user bandit25 is uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+Wrong! Please enter the correct pincode. Try again.
+```
+## Level 25 - 26 (ssh -i, more v, vim :e & :shell)
+```
+bandit25@bandit:~$ cat /etc/passwd | grep bandit26
+bandit26:x:11026:11026:bandit level 26:/home/bandit26:/usr/bin/showtext
+```
+```
+bandit25@bandit:~$ cat /usr/bin/showtext
+#!/bin/sh
+
+export TERM=linux
+
+more ~/text.txt
+exit 0
+```
+```
+bandit25@bandit:~$ ssh -i bandit26.sshkey bandit26@localhost
+```
+```
+press v
+```
+```
+:e /etc/bandit_pass/bandit26
+```
+```
+5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z 
 ```
 ## Reference 
 * [Overthewire Bandit Wargames walkthrough Series' Articles](https://dev.to/kkaosninja/series/1395)
