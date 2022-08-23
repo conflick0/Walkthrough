@@ -1,6 +1,6 @@
 # Bandit
 ###### tags: `security walkthrough`
-## Level 0
+## Level 0 (ssh)
 * use `bandit0` as password to login.
 ```
 $ ssh bandit0@bandit.labs.overthewire.org -p 2220
@@ -494,7 +494,175 @@ press v
 ```
 5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z 
 ```
-## Reference 
+## Level 26 - 27 (cat, suid)
+```
+bandit26@bandit:~$ ls -l
+total 12
+-rwsr-x--- 1 bandit27 bandit26 7296 May  7  2020 bandit27-do
+-rw-r----- 1 bandit26 bandit26  258 May  7  2020 text.txt
+```
+```
+bandit26@bandit:~$ ./bandit27-do cat /etc/bandit\_pass/bandit27
+3ba3118a22e93127a4ed485be72ef5ea
+```
+## Level 27 - 28 (git clone)
+```
+bandit27@bandit:/tmp/meow$ git clone ssh://bandit27-git@localhost/home/bandit27-git/repo
+```
+```
+bandit27@bandit:/tmp/meow$ ls -la
+total 1996
+drwxr-sr-x 3 bandit27 root    4096 Aug 23 07:46 .
+drwxrws-wt 1 root     root 2031616 Aug 23 07:46 ..
+drwxr-sr-x 3 bandit27 root    4096 Aug 23 07:46 repo
+bandit27@bandit:/tmp/meow$ cd repo
+bandit27@bandit:/tmp/meow/repo$ ls
+README
+bandit27@bandit:/tmp/meow/repo$ cat README
+The password to the next level is: 0ef186ac70e04ea33b4c1853d2526fa2
+```
+## Level 28 - 29 (git log, diff)
+```
+bandit28@bandit:/tmp/bandit28$ git clone ssh://bandit28-git@localhost/home/bandit28-git/repo
+```
+```
+bandit28@bandit:/tmp/bandit28/repo$ git log
+commit edd935d60906b33f0619605abd1689808ccdd5ee
+Author: Morla Porla <morla@overthewire.org>
+Date:   Thu May 7 20:14:49 2020 +0200
+
+    fix info leak
+
+commit c086d11a00c0648d095d04c089786efef5e01264
+Author: Morla Porla <morla@overthewire.org>
+Date:   Thu May 7 20:14:49 2020 +0200
+
+    add missing data
+
+commit de2ebe2d5fd1598cd547f4d56247e053be3fdc38
+Author: Ben Dover <noone@overthewire.org>
+Date:   Thu May 7 20:14:49 2020 +0200
+
+    initial commit of README.md
+```
+```
+bandit28@bandit:/tmp/bandit28/repo$ git diff edd935 c086d1
+diff --git a/README.md b/README.md
+index 5c6457b..3f7cee8 100644
+--- a/README.md
++++ b/README.md
+@@ -4,5 +4,5 @@ Some notes for level29 of bandit.
+ ## credentials
+
+ - username: bandit29
+-- password: xxxxxxxxxx
++- password: bbc96594b4e001778eee9975372716b2
+```
+## Level 29 - 30 (git branch)
+```
+bandit29@bandit:/tmp/bandit29$ git clone ssh://bandit29-git@localhost/home/bandit29-git/repo
+```
+```
+bandit29@bandit:/tmp/bandit29/repo$ cat README.md
+# Bandit Notes
+Some notes for bandit30 of bandit.
+
+## credentials
+
+- username: bandit30
+- password: <no passwords in production!>
+```
+```
+bandit29@bandit:/tmp/bandit29/repo$ git branch -a
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/dev
+  remotes/origin/master
+  remotes/origin/sploits-dev
+```
+```
+bandit29@bandit:/tmp/bandit29/repo$ git checkout dev
+```
+```
+bandit29@bandit:/tmp/bandit29/repo$ cat README.md
+# Bandit Notes
+Some notes for bandit30 of bandit.
+
+## credentials
+
+- username: bandit30
+- password: 5b90576bedb2cc04c86a9e924ce42faf
+```
+## Level 30 - 31 (git tag, show)
+```
+bandit30@bandit:/tmp/bandit30$ git clone ssh://bandit30-git@localhost/home/bandit30-git/repo
+```
+```
+bandit30@bandit:/tmp/bandit30/repo$ git show secret
+47e603bb428404d265f59c42920d81e5
+```
+## Level 31 - 32 (git push)
+```
+bandit31@bandit:/tmp/bandit31$ git clone ssh://bandit31-git@localhost/home/bandit31-git/repo
+```
+```
+bandit31@bandit:/tmp/bandit31/repo$ cat README.md
+This time your task is to push a file to the remote repository.
+
+Details:
+    File name: key.txt
+    Content: 'May I come in?'
+    Branch: master
+```
+```
+bandit31@bandit:/tmp/bandit31/repo$ echo 'May I come in?' > key.txt
+```
+```
+bandit31@bandit:/tmp/bandit31/repo$ rm -rf .gitignore
+```
+```
+bandit31@bandit:/tmp/bandit31/repo$ git push
+remote: ### Attempting to validate files... ####
+remote:
+remote: .oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.
+remote:
+remote: Well done! Here is the password for the next level:
+remote: 56a9bf19c63d650ce78e6ec0354ee45e
+```
+## Level 32 - 33 ($0, Variables)
+```
+WELCOME TO THE UPPERCASE SHELL
+>> id
+sh: 1: ID: not found
+```
+```
+>> $0
+$
+```
+```
+$ whoami
+bandit33
+```
+```
+$ cat /etc/bandit\_pass/bandit33
+c9c3199ddf4121b10cf581a98d51caee
+```
+## Level 33
+```
+bandit33@bandit:~$ ls
+README.txt
+bandit33@bandit:~$ cat README.txt
+Congratulations on solving the last level of this game!
+
+At this moment, there are no more levels to play in this game. However, we are constantly working
+on new levels and will most likely expand this game with more levels soon.
+Keep an eye out for an announcement on our usual communication channels!
+In the meantime, you could play some of our other wargames.
+
+If you have an idea for an awesome new level, please let us know!
+```
+## Reference
+* [MayADevBe Blog](https://mayadevbe.me/posts/)
 * [Overthewire Bandit Wargames walkthrough Series' Articles](https://dev.to/kkaosninja/series/1395)
 * [OverTheWire :- Bandit (Level 0–10) [CTF]](https://dev.to/shubham2503/overthewire-bandit-level-0-10-ctf-4mli)
 * [OverTheWire - Bandit Walkthrough](https://home.adelphi.edu/~ni21347/cybersecgames/OverTheWire/Bandit/index.html)
